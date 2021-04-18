@@ -2,6 +2,8 @@
 Arduino code compatible with Arduino Nano for building a stepper motor based "conveyor belt/band clock".  
 Uses a unipolar stepper motor and a U2004 Darlington Array.  
 Motor connected to 5v to reduce overheating from battery.  
+  
+Based on: https://www.arduino.cc/en/Tutorial/LibraryExamples/StepperSpeedControl  
 
 # REQUIREMENTS
 Arduino stepper library:
