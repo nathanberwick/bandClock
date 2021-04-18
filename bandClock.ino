@@ -27,6 +27,9 @@ void setup()
 void loop()
 {
   myStepper.step(1);
+
+  //loop used to improve response time from button.
+  // can replace with delay(intStepDelay);
   for (int i = 0; i < intStepDelay; i++)
   {
     buttonState = digitalRead(speedPin);
