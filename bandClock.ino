@@ -1,16 +1,21 @@
 #include <Stepper.h>
+#include <math.h>
 
 //changeable variables
-float timingBeltLength = 1.163; //in meters
+float timingBeltLength = 200;//1.163; //in meters
 float spindleDiameter = 0.02; //in meters
-float fullSpeedForReset = 10;
+float fullSpeedForReset = 50;
 const int stepsPerRevolution = 200;
 
 //calculated variables
 float stepLength = (spindleDiameter*PI)/stepsPerRevolution;
 float stepsPerBand = timingBeltLength/stepLength;
 float delayBetweenSteps = 86400000/stepsPerBand;
-int intStepDelay = round(delayBetweenSteps);
+double modfreturn;
+float decimalDelay = modf(delayBetweenSteps, &modfreturn);
+int counterForRound = round(1/decimalDelay);
+int counter = 1;
+int intStepDelay = delayBetweenSteps;
 //TODO: implement a counter system to add all the rounded bits together to make a "every x times, +1"
 
 //system variables
@@ -21,21 +26,27 @@ bool buttonState = false;
 void setup()
 {
   pinMode(speedPin,INPUT);
+  pinMode(13, OUTPUT);
   myStepper.setSpeed(fullSpeedForReset);
 }
   
 void loop()
 {
-  myStepper.step(1);
-
-  //loop used to improve response time from button.
-  // can replace with delay(intStepDelay);
-  for (int i = 0; i < intStepDelay; i++)
-  {
-    buttonState = digitalRead(speedPin);
-    if (!buttonState)
+    myStepper.step(1);
+    for (int j = 0; j < intStepDelay; j++)
     {
-      delay(1);
-    }
+      buttonState = digitalRead(speedPin);
+      if (!buttonState)
+      {
+        delay(1);
+      }
+      counter++;
+      if (counter == counterForRound)
+      {
+        digitalWrite(13, HIGH);
+        delay(1);
+        digitalWrite(13,LOW);
+        counter = 1;
+      }
   }
 }
