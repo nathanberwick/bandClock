@@ -1,6 +1,10 @@
 # bandClock
 Arduino code compatible with Arduino Nano for building a stepper motor based "conveyor belt/band clock"
 
+# REQUIREMENTS
+Arduino stepper library:
+https://www.arduino.cc/en/reference/stepper
+
 # user variables
 float timingBeltLength = 1.163; //in meters
 float spindleDiameter = 0.02; //in meters
